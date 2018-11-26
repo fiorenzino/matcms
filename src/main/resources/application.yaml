@@ -3,6 +3,8 @@ micronaut:
   application:
     name: matcms
   server:
+    cors:
+      enabled: true
     port: 8080
 ---
 datasources:

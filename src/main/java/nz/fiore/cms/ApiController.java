@@ -24,21 +24,36 @@ public class ApiController {
     }
 
 
-    @Get("/{+path}")
-    public HttpResponse<?> get(HttpRequest<?> request, String path) throws Exception {
+    @Get("/{table}")
+    public HttpResponse<?> list(HttpRequest<?> request, @NotNull String table) throws Exception {
+        debug(request, null);
+        return ok(apiService.list(table, request.getParameters()));
+    }
+
+
+    @Get("/{table}/{uuid}")
+    public HttpResponse<?> fetch(HttpRequest<?> request, @NotNull String table, @NotNull String uuid) throws Exception {
+        debug(request, null);
+        return ok(apiService.fecth(table, uuid));
+    }
+
+
+    @Get("/{table}/{uuid}/{+path}")
+    public HttpResponse<?> get(HttpRequest<?> request, @NotNull String table, @NotNull String uuid, @NotNull String path) throws Exception {
         debug(request, path);
         if (path == null) {
             throw new Exception("errore non c'e niente");
         }
+        System.out.println("path accessorio: " + path);
         if (path.contains("/")) {
             String[] pars = path.split("/");
             if (pars.length > 1) {
                 return ok(apiService.fecth(pars[0], pars[1]));
             } else {
-                return ok(apiService.list(pars[0]));
+                return ok(apiService.list(pars[0], request.getParameters()));
             }
         } else {
-            return ok(apiService.list(path));
+            return ok(apiService.list(path, request.getParameters()));
         }
     }
 

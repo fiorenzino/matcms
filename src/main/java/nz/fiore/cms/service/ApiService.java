@@ -1,6 +1,7 @@
 package nz.fiore.cms.service;
 
 import io.micronaut.discovery.event.ServiceStartedEvent;
+import io.micronaut.http.HttpParameters;
 import io.micronaut.runtime.event.annotation.EventListener;
 import io.micronaut.scheduling.annotation.Async;
 import nz.fiore.cms.pojo.Metadata;
@@ -50,7 +51,7 @@ public class ApiService {
         System.out.println("init---END");
     }
 
-    public List<Map<String, Object>> list(String table) throws Exception {
+    public List<Map<String, Object>> list(String table, HttpParameters httpParameters) throws Exception {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + table);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
